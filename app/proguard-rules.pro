@@ -38,3 +38,13 @@
 -dontwarn com.ximalaya.ting.android.opensdk.**
 -keep interface com.ximalaya.ting.android.opensdk.** {*;}
 -keep class com.ximalaya.ting.android.opensdk.** { *; }
+
+
+
+
+
+-dontoptimize
+-dontpreverify
+
+-dontwarn cn.jpush.**
+-keep class cn.jpush.** { *; }

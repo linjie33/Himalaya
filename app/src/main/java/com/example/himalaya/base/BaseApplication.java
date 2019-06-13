@@ -1,15 +1,37 @@
 package com.example.himalaya.base;
 
+import android.app.ActivityManager;
 import android.app.Application;
+import android.content.Context;
 
+import com.example.himalaya.BuildConfig;
 import com.example.himalaya.utils.LogUtil;
+
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 
+import java.util.List;
+
+import cn.jiguang.share.android.api.JShareInterface;
+import cn.jpush.android.api.JPushInterface;
+
+
 public class BaseApplication extends Application {
+
+
+
+
     @Override
     public void onCreate() {
         super.onCreate();
+        JPushInterface.setDebugMode(true);//正式版的时候设置false，关闭调试
+        JPushInterface.init(this);
+
+        JShareInterface.init(this);
+        //添加tag标签，发送消息的之后就可以指定tag标签来发送了
+        //Set<String> set = new HashSet<>();
+        //set.add("andfixdemo");//名字任意，可多添加几个
+        //JPushInterface.setTags(this, set, null);//设置标签
         CommonRequest mXimalaya = CommonRequest.getInstanse();
         if (DTransferConstants.isRelease) {
             String mAppSecret = "8646d66d6abe2efd14f2891f9fd1c8af";
@@ -23,5 +45,13 @@ public class BaseApplication extends Application {
             mXimalaya.init(this, mAppSecret);
         }
         LogUtil.init(this.getPackageName(), false);
+
+
+
+
+
+
     }
+
+
 }

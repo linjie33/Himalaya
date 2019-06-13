@@ -1,6 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+
+        debug {
+            storeFile file('G:\\Key\\AndroidKey\\Himalaya\\Himalaya.jks')
+            storePassword 'android'
+            keyAlias = 'key'
+            keyPassword '2129aadb49aa213bf9bd5277464864df'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.himalaya"
@@ -9,16 +18,37 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            //选择要添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a', 'x86', 'x86_64', 'mips', 'mips64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME : "com.example.himalaya",
+                JPUSH_APPKEY  : "fc1ac3df108f5b0c88b58516", //JPush上注册的包名对应的appkey（*换成你的*）
+                JPUSH_CHANNEL : "developer-default", //暂时填写默认值即可.
+                TENCENT_APPID : "101598140",//腾讯开放平台注册应用得到的 appId
+                FACEBOOK_APPID: "467616344042470",//facebook注册应用得到的appId
+        ]
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+        debug {
+            signingConfig signingConfigs.debug
         }
     }
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
         }
     }
 }
@@ -29,10 +59,32 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
-    implementation files('libs\\gson-2.8.0.jar')
-    implementation files('libs\\okhttp-3.3.1.jar')
-    implementation files('libs\\okio-1.8.0.jar')
-    implementation files('libs\\TingPhoneOpenSDK_6.3.1.jar')
-    implementation files('libs\\XmlyOAuth2SDK_V1.9.jar')
+    implementation fileTree(include: ['*.aar', '*.jar'], exclude: [], dir: 'libs')
+    implementation files('libs/gson-2.8.0.jar')
+    implementation files('libs/okhttp-3.3.1.jar')
+    implementation files('libs/okio-1.8.0.jar')
+    implementation files('libs/TingPhoneOpenSDK_6.3.1.jar')
+    implementation files('libs/XmlyOAuth2SDK_V1.9.jar')
+
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    //极光推送
+    implementation 'cn.jiguang.sdk:jpush:3.1.5'
+    implementation 'cn.jiguang.sdk:jcore:1.2.3'
+
+    //极光分享
+    compile 'cn.jiguang.sdk:jshare:1.6.0'  // 此处以JShare 1.6.0 版本为例，具体版本请参考压缩包libs的jar包版本。
+    compile 'cn.jiguang.sdk:jshare-qqmodel:1.6.0'
+    // 此处以jshare-qqmodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    //compile 'cn.jiguang.sdk:jshare-wechatmodel:1.6.0'
+    // 此处以jshare-wechatmodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    compile 'cn.jiguang.sdk:jshare-sinamodel:1.6.0'
+    // 此处以jshare-sinamodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    compile 'cn.jiguang.sdk:jshare-facebookmodel:1.6.0'
+    // 此处以jshare-facebookmodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    compile 'cn.jiguang.sdk:jshare-twittermodel:1.6.0'
+    // 此处以jshare-twittermodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+    compile 'cn.jiguang.sdk:jshare-jchatpromodel:1.6.0'
+    // 此处以jshare-twittermodel 1.6.0  版本为例，具体版本请参考压缩包libs的jar包版本。
+
+
 }
