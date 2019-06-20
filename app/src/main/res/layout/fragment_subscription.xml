@@ -7,6 +7,6 @@
     android:layout_height="wrap_content"
     android:text="订阅界面"
     android:textSize="30sp"
-    android:layout_centerInparent="true"
+    android:layout_centerInParent="true"
     />
 </RelativeLayout>
